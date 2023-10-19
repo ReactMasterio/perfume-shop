@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/app/Header";
 import Footer from "./Footer";
+import { ConfigProvider, theme } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir="rtl">
-      <body className={inter.className}>{children}</body>
+      {
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+          }}
+        >
+          <body className={inter.className}>
+            <Header />
+            {children}
+          </body>
+        </ConfigProvider>
+      }
     </html>
   );
 }
