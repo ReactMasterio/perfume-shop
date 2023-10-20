@@ -1,5 +1,4 @@
 "use client";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import {
   Button,
   Checkbox,
@@ -11,6 +10,8 @@ import {
 } from "antd";
 import React from "react";
 import "@/app/login/style.css";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const { Title } = Typography;
 
@@ -20,7 +21,35 @@ type FieldType = {
   remember?: string;
 };
 
+interface UserType {
+  Admin_ID: number;
+  Admin_UserName: string;
+  Admin_Password: string;
+}
+
 const Login = () => {
+  const router = useRouter();
+
+  const onFinish = async (values: FieldType) => {
+    const username = values.username;
+    const password = values.password;
+    try {
+      const response = await axios.get("/api/users"); // Make an API request
+      const users: UserType[] = response.data;
+
+      const authenticatedUser = users.find(
+        (user) =>
+          user.Admin_UserName === username && user.Admin_Password === password
+      );
+      if (authenticatedUser) {
+      } else {
+        console.log("Auth Failed!!!");
+      }
+    } catch (error) {
+      console.error("API request failed:", error);
+    }
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -34,6 +63,7 @@ const Login = () => {
           style={{ width: 500 }}
           initialValues={{ remember: true }}
           autoComplete="off"
+          onFinish={onFinish}
         >
           <Title level={1} className="text-center m-4">
             ورود مدیریت
@@ -55,15 +85,17 @@ const Login = () => {
             <Input.Password size="large" className="shadow-lg input_bg " />
           </Form.Item>
 
-          <Form.Item<FieldType>
-            name="remember"
-            valuePropName="checked"
-          >
+          <Form.Item<FieldType> name="remember" valuePropName="checked">
             <Checkbox>مرا به خاطر بسپار</Checkbox>
           </Form.Item>
 
           <Form.Item>
-            <Button type="default" size="large" htmlType="submit" className="w-full">
+            <Button
+              type="default"
+              size="large"
+              htmlType="submit"
+              className="w-full"
+            >
               ورود
             </Button>
           </Form.Item>
