@@ -1,0 +1,26 @@
+.login_bg {
+  background-image: url("../../../public/images/login_bg2.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  @apply flex justify-center items-center h-screen absolute inset-0;
+}
+.form_bg {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  @apply self-center p-4 rounded-lg shadow-md border border-gray-900;
+}
+
+.input_bg {
+  background-color: rgba(0, 0, 0, 0.3);
+  @apply shadow-lg
+}
+.form_title{
+  @apply text-center m-4
+}
+
+.btn_submit{
+  @apply w-full
+}

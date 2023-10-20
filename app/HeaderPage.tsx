@@ -11,7 +11,7 @@ const HeaderPage = () => {
   return (
     <Layout className="layout">
       <Header className="shadow-md">
-        <Link href="/login">
+        <Link href="/authentication/login">
           <Image src={logo} alt="logo" className="h-[50px] w-[50px]" />
         </Link>
       </Header>

@@ -6,12 +6,14 @@ import {
   Form,
   Input,
   Typography,
+  message,
   theme,
 } from "antd";
 import React from "react";
-import "@/app/login/style.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import styles from "./styles/login.module.css";
+import Cookies from "js-cookie";
 
 const { Title } = Typography;
 
@@ -33,17 +35,20 @@ const Login = () => {
   const onFinish = async (values: FieldType) => {
     const username = values.username;
     const password = values.password;
+    const body = {
+      username,
+      password,
+    };
     try {
-      const response = await axios.get("/api/users"); // Make an API request
-      const users: UserType[] = response.data;
+      const response = await axios.post("/api/auth", body); // Make an API request
+      if (response.status === 200) {
+        Cookies.set("auth_token", response.data.token, { expires: 1 });
 
-      const authenticatedUser = users.find(
-        (user) =>
-          user.Admin_UserName === username && user.Admin_Password === password
-      );
-      if (authenticatedUser) {
-      } else {
-        console.log("Auth Failed!!!");
+        message.success("LogIn Successfull.");
+
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
       }
     } catch (error) {
       console.error("API request failed:", error);
@@ -56,16 +61,16 @@ const Login = () => {
         algorithm: theme.darkAlgorithm,
       }}
     >
-      <div className="login_bg flex justify-center items-center h-screen absolute inset-0 ">
+      <div className={styles.login_bg} dir="rtl">
         <Form
-          className="form-bg p-4 rounded-lg shadow-md border border-gray-900"
+          className={"" + styles.form_bg}
           name="basic"
           style={{ width: 500 }}
           initialValues={{ remember: true }}
           autoComplete="off"
           onFinish={onFinish}
         >
-          <Title level={1} className="text-center m-4">
+          <Title level={1} className={styles.form_title}>
             ورود مدیریت
           </Title>
 
@@ -74,7 +79,7 @@ const Login = () => {
             name="username"
             rules={[{ required: true, message: "نام کاربری الزامی است" }]}
           >
-            <Input size="large" className="shadow-lg input_bg" />
+            <Input size="large" className={styles.input_bg} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -82,7 +87,7 @@ const Login = () => {
             name="password"
             rules={[{ required: true, message: "رمز ورود الزامی است" }]}
           >
-            <Input.Password size="large" className="shadow-lg input_bg " />
+            <Input.Password size="large" className={styles.input_bg} />
           </Form.Item>
 
           <Form.Item<FieldType> name="remember" valuePropName="checked">
@@ -94,7 +99,7 @@ const Login = () => {
               type="default"
               size="large"
               htmlType="submit"
-              className="w-full"
+              className={styles.btn_submit}
             >
               ورود
             </Button>

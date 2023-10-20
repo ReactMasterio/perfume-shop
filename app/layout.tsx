@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/app/HeaderPage";
-import Footer from "./Footer";
 import { ConfigProvider, theme } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,6 +16,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
+  
+
   return (
     <html lang="en" dir="rtl">
       {
