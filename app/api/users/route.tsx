@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/prisma/client";
 
 export async function GET(request: NextRequest) {
-  const users = await prisma.admins.findMany();
+  const users = await prisma.students.findMany();
 
   if (!users) {
     return NextResponse.json({

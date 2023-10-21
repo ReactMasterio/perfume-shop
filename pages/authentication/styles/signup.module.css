@@ -10,12 +10,15 @@
 .form_bg {
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
-  @apply self-center p-4 rounded-lg shadow-md border border-gray-900;
+  @apply self-center p-4 rounded-lg shadow-md border border-gray-900 flex flex-col justify-start align-middle;
 }
 
 .input_bg {
   background-color: rgba(0, 0, 0, 0.3);
   @apply shadow-lg;
+}
+.form_row {
+  @apply w-full flex justify-around align-middle;
 }
 .form_title {
   @apply text-center m-4;
@@ -25,7 +28,7 @@
   background-color: rgba(0, 0, 0, 0.3);
   @apply w-full shadow-lg;
 }
-.signIn_Link{
+.signIn_Link {
   background-color: rgba(0, 0, 0, 0.3);
-  @apply shadow-lg px-4 py-3 rounded-md text-white hover:text-opacity-70 hover:text-white
+  @apply shadow-lg px-4 py-3 rounded-md text-white hover:text-opacity-70 hover:text-white;
 }

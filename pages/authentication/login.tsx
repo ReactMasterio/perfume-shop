@@ -14,13 +14,13 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "./styles/login.module.css";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const { Title } = Typography;
 
 type FieldType = {
   username?: string;
   password?: string;
-  remember?: string;
 };
 
 interface UserType {
@@ -43,6 +43,9 @@ const Login = () => {
       const response = await axios.post("/api/auth", body); // Make an API request
       if (response.status === 200) {
         Cookies.set("auth_token", response.data.token, { expires: 1 });
+        Cookies.set("username", response.data.user!.Admin_UserName, {
+          expires: 1,
+        });
 
         message.success("LogIn Successfull.");
 
@@ -71,7 +74,7 @@ const Login = () => {
           onFinish={onFinish}
         >
           <Title level={1} className={styles.form_title}>
-            ورود مدیریت
+            ورود به حساب کاربری
           </Title>
 
           <Form.Item<FieldType>
@@ -90,8 +93,10 @@ const Login = () => {
             <Input.Password size="large" className={styles.input_bg} />
           </Form.Item>
 
-          <Form.Item<FieldType> name="remember" valuePropName="checked">
-            <Checkbox>مرا به خاطر بسپار</Checkbox>
+          <Form.Item>
+            <Link href="/authentication/signup" className={styles.signIn_Link}>
+              ایجاد حساب کاربری
+            </Link>
           </Form.Item>
 
           <Form.Item>

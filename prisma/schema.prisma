@@ -19,26 +19,15 @@ model courses {
   Course_Description String?  @db.Text
   Course_Image_Url   String?  @db.VarChar(255)
   Course_Price       Decimal? @db.Decimal(10, 2)
-  votes              votes[]
 }
 
 model students {
-  Student_ID                     Int     @id
+  Student_ID                     Int     @id @default(autoincrement())
   Student_Name                   String? @db.VarChar(150)
   Student_Social_Security_Number Int?
   Student_Phone_Number           String? @db.VarChar(15)
   Student_Email                  String? @db.VarChar(255)
-  votes                          votes[]
-}
-
-model votes {
-  vote_id    Int       @id @default(autoincrement())
-  student_id Int?
-  course_id  Int?
-  vote_value Boolean?  @db.Bit(1)
-  students   students? @relation(fields: [student_id], references: [Student_ID], onDelete: NoAction, onUpdate: NoAction, map: "votes_ibfk_1")
-  courses    courses?  @relation(fields: [course_id], references: [Course_ID], onDelete: NoAction, onUpdate: NoAction, map: "votes_ibfk_2")
-
-  @@index([course_id], map: "course_id")
-  @@index([student_id], map: "student_id")
+  role                           String  @db.VarChar(50)
+  username                       String? @db.VarChar(255)
+  password                       String? @db.VarChar(255)
 }

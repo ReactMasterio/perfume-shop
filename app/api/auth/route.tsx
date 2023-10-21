@@ -34,5 +34,5 @@ export async function POST(request: NextRequest) {
   const secretKey = "your-secret-key"; // Replace with your actual secret key
   const token = sign({ userId: user.Admin_ID }, secretKey, { expiresIn: "1h" });
 
-  return NextResponse.json({ status: 200, token });
+  return NextResponse.json({ status: 200, token, user });
 }
