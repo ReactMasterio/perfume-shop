@@ -9,6 +9,7 @@ import {
   Row,
   Typography,
   message,
+  notification,
   theme,
 } from "antd";
 import React from "react";
@@ -23,19 +24,13 @@ const { Title } = Typography;
 type FieldType = {
   firstname?: string;
   lastname?: string;
-  social_security_number?: number;
-  student_ID?: number;
-  phone_number?: number;
+  social_security_number?: string;
+  student_ID?: string;
+  phone_number?: string;
   email?: string;
   username?: string;
   password?: string;
 };
-
-interface UserType {
-  Admin_ID: number;
-  Admin_UserName: string;
-  Admin_Password: string;
-}
 
 function isStrongPassword(value: string) {
   const regex =
@@ -47,7 +42,30 @@ const SignUp = () => {
   const router = useRouter();
 
   const onFinish = async (values: FieldType) => {
-    console.log(values);
+    const { firstname, lastname, ...rest } = values;
+    const fullname = `${firstname} ${lastname}`;
+
+    const reqBody = {
+      ...rest,
+      fullname,
+    };
+    try {
+      const response = await axios.post("/api/students", reqBody);
+
+      if (response.status === 201) {
+        message.success("کابر ساخته شد")
+
+        setTimeout(()=>{
+          router.push("/authentication/login")
+        },3000)
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        message.error(error.response.data.error);
+      } else {
+        message.error(error.response.data.error);
+      }
+    }
   };
 
   return (

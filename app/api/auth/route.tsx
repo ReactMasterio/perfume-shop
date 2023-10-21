@@ -19,20 +19,25 @@ export async function POST(request: NextRequest) {
   const [username, password] = [body.username, body.password];
 
   // Authenticate the user (check credentials in the database)
-  const user = await prisma.admins.findUnique({
+  const user = await prisma.students.findFirst({
     where: {
-      Admin_UserName: username,
-      Admin_Password: password,
+      Student_Username: username,
+      Student_Password: password,
     },
   });
 
   if (!user) {
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    return NextResponse.json(
+      { error: "نام کاربری و یا رمز عبور اشتباه است" },
+      { status: 401 }
+    );
   }
 
   // Generate a JWT token
-  const secretKey = "your-secret-key"; // Replace with your actual secret key
-  const token = sign({ userId: user.Admin_ID }, secretKey, { expiresIn: "1h" });
+  const secretKey = "your-secret-key";
+  const token = sign({ userId: user.Student_Username }, secretKey, {
+    expiresIn: "1h",
+  });
 
   return NextResponse.json({ status: 200, token, user });
 }

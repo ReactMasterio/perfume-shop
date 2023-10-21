@@ -40,10 +40,13 @@ const Login = () => {
       password,
     };
     try {
-      const response = await axios.post("/api/auth", body); // Make an API request
+      const response = await axios.post("/api/auth", body);
       if (response.status === 200) {
         Cookies.set("auth_token", response.data.token, { expires: 1 });
-        Cookies.set("username", response.data.user!.Admin_UserName, {
+        Cookies.set("username", response.data.user!.Student_Username, {
+          expires: 1,
+        });
+        Cookies.set("role", response.data.user!.Student_Role, {
           expires: 1,
         });
 

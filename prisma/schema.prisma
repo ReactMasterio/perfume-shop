@@ -22,12 +22,12 @@ model courses {
 }
 
 model students {
-  Student_ID                     Int     @id @default(autoincrement())
+  Student_ID                     String  @id
   Student_Name                   String? @db.VarChar(150)
-  Student_Social_Security_Number Int?
-  Student_Phone_Number           String? @db.VarChar(15)
+  Student_Social_Security_Number String?
+  Student_Phone_Number           String?
   Student_Email                  String? @db.VarChar(255)
-  role                           String  @db.VarChar(50)
-  username                       String? @db.VarChar(255)
-  password                       String? @db.VarChar(255)
+  Student_Role                   String  @default("student")
+  Student_Username               String? @db.VarChar(255)
+  Student_Password               String? @db.VarChar(255)
 }

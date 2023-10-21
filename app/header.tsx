@@ -4,34 +4,52 @@ import logo from "@/public/images/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { Button, Dropdown, MenuProps, Space } from "antd";
+import { Button, Dropdown, MenuProps, Space, message } from "antd";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 const jwt = require("jsonwebtoken");
 
 const HeaderPage = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("student");
 
   useEffect(() => {
-    Cookies.get("auth_token") && setIsUserLoggedIn(true);
-    const getUser = Cookies.get("username");
-    setUsername(getUser!);
-  }, [isUserLoggedIn]);
+    const fetchData = async () => {
+      if (Cookies.get("auth_token")) {
+        setIsUserLoggedIn(true);
+        const getUser = Cookies.get("username");
+        setUsername(getUser!);
+        const reqBody = {
+          username: getUser,
+        };
+
+        try {
+          const response = await axios.post("/api/students/username", reqBody);
+          if (response.status === 200) {
+            setRole(response.data.role);
+            Cookies.set("role", response.data.role);
+          }
+        } catch (error) {
+          setRole("student");
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleLogout = () => {
     Cookies.remove("auth_token");
     Cookies.remove("username");
+    Cookies.remove("role");
     window.location.href = "/authentication/login";
   };
 
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link href="/">Profile</Link>,
-    },
-    {
-      key: "2",
       label: (
         <Link href="/" onClick={handleLogout}>
           Log Out
@@ -50,12 +68,16 @@ const HeaderPage = () => {
         </Link>
 
         <ul className="flex align-middle justify-between">
-          <li className="self-center hover:bg-gray-50 border border-gray-200 rounded-md mx-2 px-8 py-2 transition duration-300  ">
-            <Link href="/users">کاربران</Link>
-          </li>
-          <li className="self-center hover:bg-gray-50 border border-gray-200 rounded-md mx-2 px-8 py-2 transition duration-300  ">
-            <Link href="/">دانشجویان</Link>
-          </li>
+          {role === "admin" && (
+            <>
+              <li className="self-center hover:bg-gray-50 border border-gray-200 rounded-md mx-2 px-8 py-2 transition duration-300  ">
+                <Link href="/users">کاربران</Link>
+              </li>
+              <li className="self-center hover:bg-gray-50 border border-gray-200 rounded-md mx-2 px-8 py-2 transition duration-300  ">
+                <Link href="/students">دانشجویان</Link>
+              </li>
+            </>
+          )}
           <li className="self-center hover:bg-gray-50 border border-gray-200 rounded-md mx-2 px-8 py-2 transition duration-300  ">
             <Link href="/">دوره ها</Link>
           </li>

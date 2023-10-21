@@ -6,7 +6,7 @@ import prisma from "@/prisma/client";
 export async function GET(request: NextRequest) {
   const users = await prisma.students.findMany({
     where: {
-      Student_Role: "admin",
+      Student_Role: "student",
     },
   });
 
