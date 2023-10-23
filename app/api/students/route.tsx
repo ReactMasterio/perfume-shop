@@ -4,11 +4,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "@/prisma/client";
 
 export async function GET(request: NextRequest) {
-  const users = await prisma.students.findMany({
-    where: {
-      Student_Role: "student",
-    },
-  });
+  const users = await prisma.students.findMany();
 
   if (!users) {
     return NextResponse.json({
@@ -32,7 +28,7 @@ export async function POST(request: NextRequest) {
 
   const isUserExist = await prisma.students.findUnique({
     where: {
-      Student_ID: body.student_ID,
+      Student_ID: body.studentID,
     },
   });
 
@@ -57,13 +53,14 @@ export async function POST(request: NextRequest) {
 
   const newUser = await prisma.students.create({
     data: {
-      Student_Name: body.fullname,
-      Student_Social_Security_Number: body.social_security_number,
-      Student_ID: body.student_ID,
-      Student_Phone_Number: body.phone_number,
-      Student_Email: body.email,
+      Student_Name: body.student_name,
+      Student_Social_Security_Number: body.student_social_security_number,
+      Student_ID: body.studentID,
+      Student_Phone_Number: body.student_phone_number,
+      Student_Email: body.student_email,
       Student_Username: body.username,
       Student_Password: body.password,
+      Student_Role: body.student_role,
     },
   });
 

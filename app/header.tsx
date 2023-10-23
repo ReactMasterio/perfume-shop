@@ -20,13 +20,17 @@ const HeaderPage = () => {
       if (Cookies.get("auth_token")) {
         setIsUserLoggedIn(true);
         const getUser = Cookies.get("username");
+        const StudentID = Cookies.get("StudentID");
         setUsername(getUser!);
         const reqBody = {
-          username: getUser,
+          studentID: StudentID,
         };
 
         try {
-          const response = await axios.post("/api/students/username", reqBody);
+          const response = await axios.post(
+            `/api/students/${StudentID}`,
+            reqBody
+          );
           if (response.status === 200) {
             setRole(response.data.role);
             Cookies.set("role", response.data.role);

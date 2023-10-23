@@ -49,6 +49,9 @@ const Login = () => {
         Cookies.set("role", response.data.user!.Student_Role, {
           expires: 1,
         });
+        Cookies.set("StudentID", response.data.user!.Student_ID, {
+          expires: 1,
+        });
 
         message.success("LogIn Successfull.");
 
@@ -56,8 +59,9 @@ const Login = () => {
           router.push("/");
         }, 2000);
       }
-    } catch (error) {
-      console.error("API request failed:", error);
+    } catch (error: any) {
+      const errorMessage = error.response.data.error;
+      message.error(errorMessage);
     }
   };
 

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
 const schema = z.object({
-  username: z.string().min(8),
+  studentID: z.string(),
 });
 export default schema;
