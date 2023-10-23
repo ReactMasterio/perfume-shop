@@ -43,21 +43,26 @@ const SignUp = () => {
 
   const onFinish = async (values: FieldType) => {
     const { firstname, lastname, ...rest } = values;
-    const fullname = `${firstname} ${lastname}`;
 
     const reqBody = {
-      ...rest,
-      fullname,
+      username: values.username,
+      studentID: values.student_ID,
+      student_phone_number: values.phone_number,
+      student_social_security_number: values.social_security_number,
+      password: values.password,
+      student_name: values.firstname + " " + values.lastname,
+      student_email: values.email,
+      student_role: "student",
     };
     try {
       const response = await axios.post("/api/students", reqBody);
 
       if (response.status === 201) {
-        message.success("کابر ساخته شد")
+        message.success("کابر ساخته شد");
 
-        setTimeout(()=>{
-          router.push("/authentication/login")
-        },3000)
+        setTimeout(() => {
+          router.push("/authentication/login");
+        }, 3000);
       }
     } catch (error: any) {
       if (error.response.data.error) {

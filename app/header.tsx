@@ -66,7 +66,7 @@ const HeaderPage = () => {
 
   return (
     <>
-      <header className="flex justify-between align-middle w-full py-5 shadow-md">
+      <header className="flex justify-between align-middle w-full py-5 px-8 shadow-md">
         <Link href="/authentication/login">
           <Image src={logo} alt="logo" className="h-[50px] w-[50px]" />
         </Link>
@@ -94,7 +94,7 @@ const HeaderPage = () => {
           <Dropdown
             menu={{ items }}
             trigger={["click"]}
-            className="border border-gray-200 shadow-sm rounded-md self-center px-4 py-2 mx-5"
+            className="border border-gray-200 shadow-sm rounded-md self-center px-4 py-2  "
           >
             <a onClick={(e) => e.preventDefault()}>
               <Space>

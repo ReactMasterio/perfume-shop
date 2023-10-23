@@ -6,7 +6,7 @@ import UsersTable from "../components/UsersTable";
 
 const page = () => {
   return (
-    <div className="container w-[550px] mx-auto m-5">
+    <div className="w-screen flex justify-center align-middle bg-gray-50 py-8">
       <UsersTable />
     </div>
   );

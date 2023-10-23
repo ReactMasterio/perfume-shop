@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     ID: user?.Student_ID,
     Username: user?.Student_Username,
     role: user?.Student_Role,
+    fullname: user?.Student_Name,
   };
 
   return NextResponse.json(userInfo, { status: 200 });

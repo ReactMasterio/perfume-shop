@@ -1,6 +1,6 @@
-"use client";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Table } from 'antd';
+import axios from 'axios';
 
 interface User {
   Student_ID: string;
@@ -13,41 +13,44 @@ interface User {
 
 const UsersTable = () => {
   const [users, setUsers] = useState<User[]>([]);
+
   useEffect(() => {
     axios
-      .get<User[]>("/api/users")
+      .get<User[]>('/api/users')
       .then((response) => {
         setUsers(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching user data: ", error);
+        console.error('Error fetching user data: ', error);
       });
   }, []);
 
+  const columns = [
+    {
+      title: 'نام',
+      dataIndex: 'Student_Name',
+      key: 'Student_Name',
+    },
+    {
+      title: 'کد ملی',
+      dataIndex: 'Student_Social_Security_Number',
+      key: 'Student_Social_Security_Number',
+    },
+    {
+      title: 'شماره تلفن',
+      dataIndex: 'Student_Phone_Number',
+      key: 'Student_Phone_Number',
+    },
+    {
+      title: 'ایمیل',
+      dataIndex: 'Student_Email',
+      key: 'Student_Email',
+    },
+  ];
+
   return (
     <div className="bg-white shadow-md rounded w-[750px]">
-      <table className="min-w-full w-full table-auto">
-        <thead>
-          <tr className="bg-gray-100 text-gray-600 text-left text-sm leading-normal text-center">
-            <th className="py-3 px-6 w-1/4">نام</th>
-            <th className="py-3 px-6 w-1/4">کد ملی</th>
-            <th className="py-3 px-6 w-1/4">شماره تلفن</th>
-            <th className="py-3 px-6 w-1/4">ایمیل</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-600 text-sm font-light text-center">
-          {users.map((user) => (
-            <tr key={user.Student_ID}>
-              <td className="py-3 px-6 w-1/4">{user.Student_Name}</td>
-              <td className="py-3 px-6 w-1/4">
-                {user.Student_Social_Security_Number}
-              </td>
-              <td className="py-3 px-6 w-1/4">{user.Student_Phone_Number}</td>
-              <td className="py-3 px-6 w-1/4">{user.Student_Email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table dataSource={users} columns={columns} />
     </div>
   );
 };
